@@ -1,5 +1,4 @@
-"""Naive Bayes implementation
-    Followed tutorial at https://machinelearningmastery.com/naive-bayes-classifier-scratch-python/"""
+"""Naive Bayes implementation"""
 import csv
 
 def read_csv(filename):
@@ -15,6 +14,7 @@ def read_csv(filename):
 
 def separate_by_class(dataset):
     """
+    https://machinelearningmastery.com/naive-bayes-classifier-scratch-python/
     Separates dataset into its given classes. In this case, there are only two classes: normal and abnormal.
     :param dataset: Data to be separated into classes
     :return: dictionary of lists where the key is the class and value is a list of vectors in that class.
@@ -27,3 +27,25 @@ def separate_by_class(dataset):
             classes[class_value] = list()
         classes[class_value].append(vector)
     return classes
+
+def train(training_set, feature_class, classes):
+    """
+    Train learner via training_set
+    :param training_set: List of training instances t has a class t.c and array of features t.f
+    :param feature_class: 2-dimensional array of counts feature_class[i,j] where left dimen is
+        an instance classification (0 or 1) and right dimension is a feature number.
+        Contents of each array entry is a count of the number of times
+        that the given feature appears positive in the given class.
+    :param classes: Array classes[i] indexed by instance classification and gives the count of training instances with
+        that class.
+    :return:
+    """
+    if feature_class:
+        feature_class = list(list())
+    if classes:
+        classes = list()
+    for t in training_set:
+        classes[t[0]] += 1
+        for j in t[1:]:
+            if j == 1:
+                feature_class[t[0][j]] += 1
