@@ -28,24 +28,24 @@ def separate_by_class(dataset):
         classes[class_value].append(vector)
     return classes
 
-def train(training_set, feature_class, classes):
+def train(training_set):
     """
     Train learner via training_set
     :param training_set: List of training instances t has a class t.c and array of features t.f
-    :param feature_class: 2-dimensional array of counts feature_class[i,j] where left dimen is
+    :return:feature_class: 2-dimensional array of counts feature_class[i,j] where left dimen is
         an instance classification (0 or 1) and right dimension is a feature number.
         Contents of each array entry is a count of the number of times
         that the given feature appears positive in the given class.
-    :param classes: Array classes[i] indexed by instance classification and gives the count of training instances with
+    :return:classes: Array classes[i] indexed by instance classification and gives the count of training instances with
         that class.
-    :return:
     """
-    if feature_class:
-        feature_class = list(list())
-    if classes:
-        classes = list()
+    feature_class = [[0 for i in range(22)] for i in range(2)]
+    classes = [0, 0]
     for t in training_set:
         classes[t[0]] += 1
-        for j in t[1:]:
-            if j == 1:
-                feature_class[t[0][j]] += 1
+        j = 0
+        for feature in t[1:]:
+            if feature == 1:
+                feature_class[t[0]][j] += 1
+            j += 1
+    return feature_class, classes
