@@ -78,6 +78,9 @@ class Learner:
         return dist
 
     def neighbors(self, instance, dataset):
+        # distances is a list of tuples (i, j) where i is the distance to the instance and j is the instance's class
         distances = list()
         for vector in dataset:
-            distances.append(self.distance(instance, vector))
+            distances.append((self.distance_h(instance, vector), vector[0]))
+        return distances
+
