@@ -1,5 +1,6 @@
 """Naive Bayes implementation"""
 import csv
+import math
 
 
 class Learner:
@@ -8,6 +9,14 @@ class Learner:
     """
 
     def __init__(self, num_features=0, num_classes=0):
+        """
+        Constructor
+        feature_class: 2-dimensional array of counts feature_class[i,j] where left dimen is
+            an instance classification (0 or 1) and right dimension is a feature number.
+            Contents of each array entry is a count of the number of times
+            that the given feature appears positive in the given class.
+        classes: Array classes[i] indexed by instance classification and gives the count of training instances with
+            that class."""
         self.num_features = num_features
         self.num_classes = num_classes
         self.feature_class = []
@@ -44,23 +53,29 @@ class Learner:
         """
         Train learner via training_set
         :param training_set: List of training instances t has a class t.c and array of features t.f
-        :return:feature_class: 2-dimensional array of counts feature_class[i,j] where left dimen is
-            an instance classification (0 or 1) and right dimension is a feature number.
-            Contents of each array entry is a count of the number of times
-            that the given feature appears positive in the given class.
-        :return:classes: Array classes[i] indexed by instance classification and gives the count of training instances with
-            that class.
         """
-        feature_class = [[0 for i in range(self.num_features)] for i in range(self.num_classes)]
-        classes = [0, 0]
+        self.feature_class = [[0 for i in range(self.num_features)] for i in range(self.num_classes)]
+        self.classes = [0, 0]
         for t in training_set:
-            classes[t[0]] += 1
+            self.classes[t[0]] += 1
             j = 0
             for feature in t[1:]:
                 if feature == 1:
-                    feature_class[t[0]][j] += 1
+                    self.feature_class[t[0]][j] += 1
                 j += 1
-        return feature_class, classes
 
-    def classify(self):
+    def classify(self, instance):
+        likelihood = [0 for i in range(self.num_classes)]
+        instance_features = instance[1:]
+        for i in range(0, self.num_classes):
+            likelihood[i] = math.log(self.classes[i] + 0.5) - math.log(self.classes[0] + self.classes[1] + 0.5)
+            j = 1
+            for feature in range(1, self.num_features):
+                s = self.feature_class[i][j]
+                if instance_features[j] == 0:
+                    s = self.classes[i] - s
+                likelihood[i] = likelihood[i] + math.log(s + 0.5) - math.log(self.classes[i] + 0.5)
+                j += 1
+        if likelihood[0] > likelihood[1]:
+            return 1
         return 0

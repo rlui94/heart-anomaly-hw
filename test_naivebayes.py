@@ -32,8 +32,13 @@ class TestNaivebayes(unittest.TestCase):
 
     def test_train(self):
         nb = Learner(22, 2)
-        feature_class, classes = nb.train(default_dataset)
-        self.assertEqual(default_feature_class, feature_class)
-        self.assertEqual(classes[0], 2)
-        self.assertEqual(classes[1], 2)
+        nb.train(default_dataset)
+        self.assertEqual(default_feature_class, nb.feature_class)
+        self.assertEqual(nb.classes[0], 2)
+        self.assertEqual(nb.classes[1], 2)
 
+    def test_classify(self):
+        nb = Learner(22, 2)
+        instance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        nb.train(default_dataset)
+        print(nb.classify(instance))
