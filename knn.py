@@ -101,3 +101,21 @@ class Learner:
         neighbors.sort(key=lambda neighbor: neighbor[0])
         return neighbors[:k]
 
+    def classify(self, instance, dataset, k):
+        """
+        Finds the k nearest neighbors for the given instance vector in a dataset of vectors,
+        then classifies the instance based on the neighbors found.
+        :param instance: instance vector as list of integers
+        :param dataset: dataset of vectors as a list of vectors
+        :param k: the number of instances to return
+        :return: class of instance as an integer
+        """
+        neighbors = self.neighbors(instance, dataset)
+        neighbors.sort(key=lambda neighbor: neighbor[0])
+        classes = dict()
+        for tup in neighbors[:k]:
+            if tup[1] not in classes:
+                classes[tup[1]] = 1
+            else:
+                classes[tup[1]] += 1
+        return max(classes, key=classes.get)
