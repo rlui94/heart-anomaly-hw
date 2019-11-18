@@ -42,3 +42,9 @@ class TestNaivebayes(unittest.TestCase):
         instance = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         nb.train(default_dataset)
         print(nb.classify(instance))
+
+    def test_read_csv(self):
+        nb = Learner(22, 2)
+        dataset = nb.read_csv('spect-orig.train.csv')
+        for row in dataset[:5]:
+            print(row)

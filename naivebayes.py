@@ -31,6 +31,11 @@ class Learner:
         with open(filename) as file:
             reader = csv.reader(file, delimiter=',')
             dataset = list()
+            for row in reader:
+                vector = list()
+                for x in row:
+                    vector.append(int(x))
+                dataset.append(vector)
         return dataset
 
     def separate_by_class(self, dataset):
@@ -65,6 +70,10 @@ class Learner:
                 j += 1
 
     def classify(self, instance):
+        """
+        :param instance: classification instance to be classified
+        :return: 1 if class 1, 0 if class 0
+        """
         likelihood = [0 for i in range(self.num_classes)]
         instance_features = instance[1:]
         for i in range(0, self.num_classes):
