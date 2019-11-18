@@ -64,3 +64,8 @@ class Learner:
         for i in range(1, len(v1)):
             dist += (v2[i] - v1[i]) ** 2
         return math.sqrt(dist)
+
+    def neighbors(self, instance, dataset):
+        distances = list()
+        for vector in dataset:
+            distances.append(self.distance(instance, vector))
