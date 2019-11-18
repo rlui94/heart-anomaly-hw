@@ -89,3 +89,15 @@ class Learner:
             distances.append((self.distance_h(instance, vector), vector[0]))
         return distances
 
+    def k_nearest(self, instance, dataset, k):
+        """
+        Finds the k nearest neighbors for the given instance vector in a dataset of vectors
+        :param instance: instance vector as list of integers
+        :param dataset: dataset of vectors as a list of vectors
+        :param k: the number of instances to return
+        :return: list of k tuples (i, j) where i is the distance to the instance and j is the instance's class
+        """
+        neighbors = self.neighbors(instance, dataset)
+        neighbors.sort(key=lambda neighbor: neighbor[0])
+        return neighbors[:k]
+
