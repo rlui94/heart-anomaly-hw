@@ -97,10 +97,10 @@ class Learner:
                 classes[tup[1]] += 1
         return max(classes, key=classes.get)
 
-    def classify_check(self, class_instances):
+    def classify_check(self, dataset, k):
         """
         Classify a set of instances using training data and return number of instances correctly classified.
-        :param class_instances: 2-dimensional array of integers
+        :param dataset: 2-dimensional array of integers
         :return: string showing accuracy, true negative rate, and true positive rate in the format
         (instances correct)/(total instances)(percent correct)
         """
@@ -109,8 +109,8 @@ class Learner:
         class_instances_pos = 0
         true_neg = 0
         true_pos = 0
-        for inst in class_instances:
-            inst_class = self.classify(inst)
+        for inst in dataset:
+            inst_class = self.classify(inst, dataset, k)
             if inst[0] == 1:
                 class_instances_pos += 1
                 if inst_class == inst[0]:
@@ -121,5 +121,5 @@ class Learner:
                 if inst_class == inst[0]:
                     correct += 1
                     true_neg += 1
-        ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
+        ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(dataset), correct/len(dataset), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
         return ret
