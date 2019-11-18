@@ -27,7 +27,7 @@ class TestKnn(unittest.TestCase):
     def test_neighbors(self):
         kn = Learner()
         neighbors = kn.neighbors(default_dataset[0], default_dataset[1:])
-        print(neighbors)
+        self.assertEqual([(13, 0), (14, 1), (11, 0)], neighbors)
 
 
 if __name__ == '__main__':
