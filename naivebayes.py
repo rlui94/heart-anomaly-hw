@@ -36,6 +36,12 @@ class Learner:
                 for x in row:
                     vector.append(int(x))
                 dataset.append(vector)
+        self.num_features = len(dataset[0]) - 1
+        classes = list()
+        for i in dataset:
+            if i[0] not in classes:
+                classes.append(i[0])
+        self.num_classes = len(classes)
         return dataset
 
     def separate_by_class(self, dataset):
@@ -71,7 +77,8 @@ class Learner:
 
     def classify(self, instance):
         """
-        :param instance: classification instance to be classified
+        Classify a particular instance using training data
+        :param instance: classification instance to be classified as a list of integers
         :return: 1 if class 1, 0 if class 0
         """
         likelihood = [0 for i in range(self.num_classes)]
@@ -88,3 +95,28 @@ class Learner:
         if likelihood[0] > likelihood[1]:
             return 1
         return 0
+
+    def classify_check(self, class_instances):
+        """
+        Classify a set of instances using training data and return number of instances correctly classified.
+        :param class_instances: 2-dimensional array of integers
+        :return: integer of instances correctly classified
+        """
+        correct = 0
+        class_instances_neg = 0
+        class_instances_pos = 0
+        true_neg = 0
+        true_pos = 0
+        for inst in class_instances:
+            inst_class = self.classify(inst)
+            if inst[0] == 1:
+                class_instances_pos += 1
+                if inst_class == inst[0]:
+                    correct += 1
+                    true_pos += 1
+            else:
+                class_instances_neg += 1
+                if inst_class == inst[0]:
+                    correct += 1
+                    true_neg += 1
+        print("%d/%d(%d) %d/%d(%d) %d/%d(%d)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
