@@ -8,40 +8,17 @@ class Learner:
     Contains information on the dataset, performs training, and classifies.
     """
 
-    def __init__(self, num_features=0, num_classes=0):
+    def __init__(self):
         """
         Constructor
         """
-        self.num_features = num_features
-        self.num_classes = num_classes
+        self.dataset = []
 
-    def read_csv_train(self, filename):
-        """
-        Reads data for training in from csv file
-        :param filename: path to csv file as a string
-        :return: list of data read from csv file
-        """
-        with open(filename) as file:
-            reader = csv.reader(file, delimiter=',')
-            dataset = list()
-            for row in reader:
-                vector = list()
-                for x in row:
-                    vector.append(int(x))
-                dataset.append(vector)
-        self.num_features = len(dataset[0]) - 1
-        classes = list()
-        for i in dataset:
-            if i[0] not in classes:
-                classes.append(i[0])
-        self.num_classes = len(classes)
-        return dataset
-
-    def read_csv_test(self, filename):
+    def read_csv(self, filename):
         """
         Reads data for testing in from csv file
         :param filename: path to csv file as a string
-        :return: list of data read from csv file
+        :return:
         """
         with open(filename) as file:
             reader = csv.reader(file, delimiter=',')
@@ -51,7 +28,7 @@ class Learner:
                 for x in row:
                     vector.append(int(x))
                 dataset.append(vector)
-        return dataset
+        self.dataset = dataset
 
     def distance(self, v1, v2):
         """
@@ -119,3 +96,30 @@ class Learner:
             else:
                 classes[tup[1]] += 1
         return max(classes, key=classes.get)
+
+    def classify_check(self, class_instances):
+        """
+        Classify a set of instances using training data and return number of instances correctly classified.
+        :param class_instances: 2-dimensional array of integers
+        :return: string showing accuracy, true negative rate, and true positive rate in the format
+        (instances correct)/(total instances)(percent correct)
+        """
+        correct = 0
+        class_instances_neg = 0
+        class_instances_pos = 0
+        true_neg = 0
+        true_pos = 0
+        for inst in class_instances:
+            inst_class = self.classify(inst)
+            if inst[0] == 1:
+                class_instances_pos += 1
+                if inst_class == inst[0]:
+                    correct += 1
+                    true_pos += 1
+            else:
+                class_instances_neg += 1
+                if inst_class == inst[0]:
+                    correct += 1
+                    true_neg += 1
+        ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
+        return ret
