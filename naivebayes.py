@@ -101,14 +101,14 @@ class Learner:
         instance_features = instance[1:]
         for i in range(0, self.num_classes):
             likelihood[i] = math.log(self.classes[i] + 0.5) - math.log(self.classes[0] + self.classes[1] + 0.5)
-            j = 1
-            for feature in range(1, self.num_features):
+            j = 0
+            for feature in range(0, self.num_features):
                 s = self.feature_class[i][j]
                 if instance_features[j] == 0:
                     s = self.classes[i] - s
                 likelihood[i] = likelihood[i] + math.log(s + 0.5) - math.log(self.classes[i] + 0.5)
                 j += 1
-        if likelihood[0] > likelihood[1]:
+        if likelihood[1] > likelihood[0]:
             return 1
         return 0
 
@@ -116,7 +116,8 @@ class Learner:
         """
         Classify a set of instances using training data and return number of instances correctly classified.
         :param class_instances: 2-dimensional array of integers
-        :return: integer of instances correctly classified
+        :return: string showing accuracy, true negative rate, and true positive rate in the format
+        (instances correct)/(total instances)(percent correct)
         """
         correct = 0
         class_instances_neg = 0
@@ -135,4 +136,5 @@ class Learner:
                 if inst_class == inst[0]:
                     correct += 1
                     true_neg += 1
-        print("%d/%d(%d) %d/%d(%d) %d/%d(%d)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
+        ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
+        return ret
