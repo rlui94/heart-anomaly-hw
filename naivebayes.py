@@ -22,9 +22,9 @@ class Learner:
         self.feature_class = []
         self.classes = []
 
-    def read_csv(self, filename):
+    def read_csv_train(self, filename):
         """
-        Reads data in from csv file
+        Reads data for training in from csv file
         :param filename: path to csv file as a string
         :return: list of data read from csv file
         """
@@ -42,6 +42,22 @@ class Learner:
             if i[0] not in classes:
                 classes.append(i[0])
         self.num_classes = len(classes)
+        return dataset
+
+    def read_csv_test(self, filename):
+        """
+        Reads data for testing in from csv file
+        :param filename: path to csv file as a string
+        :return: list of data read from csv file
+        """
+        with open(filename) as file:
+            reader = csv.reader(file, delimiter=',')
+            dataset = list()
+            for row in reader:
+                vector = list()
+                for x in row:
+                    vector.append(int(x))
+                dataset.append(vector)
         return dataset
 
     def separate_by_class(self, dataset):
