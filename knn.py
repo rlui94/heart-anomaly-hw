@@ -65,6 +65,18 @@ class Learner:
             dist += (v2[i] - v1[i]) ** 2
         return math.sqrt(dist)
 
+    def distance_h(self, v1, v2):
+        """
+        Calculates hamming distance given two vectors. Assume first integer in each list is the classification.
+        :param v1: vector 1 as list of integers
+        :param v2: vector 2 as list of integers
+        :return: distance as integer
+        """
+        dist = 0
+        for i in range(1, len(v1)):
+            dist += v2[i] ^ v1[i]
+        return dist
+
     def neighbors(self, instance, dataset):
         distances = list()
         for vector in dataset:
