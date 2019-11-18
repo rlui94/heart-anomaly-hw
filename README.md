@@ -1,4 +1,11 @@
 # Heart Anomaly Homework Data
+Ryan Lui
+
+Implementation of a Naive Bayes machine learner on heart anomaly data.
+
+
+**Original Assignment**
+___
 Bart Massey
 
 This file contains the instance data and
