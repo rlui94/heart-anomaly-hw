@@ -2,7 +2,8 @@
 import csv
 import math
 
-FILEFLAG = 1
+FILEFLAG = 3
+K = 5
 
 
 def file_switch(flag):
@@ -112,6 +113,7 @@ class Learner:
         """
         Classify a set of instances using training data and return number of instances correctly classified.
         :param dataset: 2-dimensional array of integers
+        :param k: Number of closest neighbors to examine
         :return: string showing accuracy, true negative rate, and true positive rate in the format
         (instances correct)/(total instances)(percent correct)
         """
@@ -134,3 +136,8 @@ class Learner:
                     true_neg += 1
         ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(dataset), correct/len(dataset), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
         return ret
+
+    def solve(self):
+        data = file_switch(FILEFLAG)
+        self.read_csv(data[0])
+        return data[2] + " " + self.classify_check(self.dataset, K)
