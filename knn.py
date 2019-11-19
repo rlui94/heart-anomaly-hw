@@ -138,6 +138,11 @@ class Learner:
         return ret
 
     def solve(self):
+        """
+        Main method call. Uses file_switch to choose data file and classifies the data.
+        :return: string with name of data showing accuracy, true negative rate, and true positive rate in the format
+        (instances correct)/(total instances)(percent correct)
+        """
         data = file_switch(FILEFLAG)
-        self.read_csv(data[0])
+        self.read_csv(data[1])
         return data[2] + " " + self.classify_check(self.dataset, K)
