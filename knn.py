@@ -1,9 +1,10 @@
 """K-Nearest Neighbor implementation"""
 import csv
 import math
+import random
 
 FILEFLAG = 3
-K = 5
+K = 5  # Use only ODD numbers since we have an even number of classes!
 
 
 def file_switch(flag):
@@ -140,9 +141,11 @@ class Learner:
     def solve(self):
         """
         Main method call. Uses file_switch to choose data file and classifies the data.
+        Shuffle the dataset to prevent ties.
         :return: string with name of data showing accuracy, true negative rate, and true positive rate in the format
         (instances correct)/(total instances)(percent correct)
         """
         data = file_switch(FILEFLAG)
         self.read_csv(data[1])
+        random.shuffle(self.dataset)
         return data[2] + " " + self.classify_check(self.dataset, K)
