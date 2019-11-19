@@ -2,6 +2,17 @@
 import csv
 import math
 
+FILEFLAG = 1
+
+
+def file_switch(flag):
+    switcher = {
+        1: ('spect-orig.train.csv', 'spect-orig.test.csv', 'orig'),
+        2: ('spect-itg.train.csv', 'spect-itg.test.csv', 'itg'),
+        3: ('spect-resplit.train.csv', 'spect-resplit.test.csv', 'resplit'),
+    }
+    return switcher.get(flag, "Invalid flag")
+
 
 class Learner:
     """
@@ -138,3 +149,10 @@ class Learner:
                     true_neg += 1
         ret = ("%d/%d(%5.3f) %d/%d(%5.3f) %d/%d(%5.3f)\n" % (correct, len(class_instances), correct/len(class_instances), true_neg, class_instances_neg, true_neg/class_instances_neg, true_pos, class_instances_pos, true_pos/class_instances_pos))
         return ret
+
+    def solve(self):
+        dataset = file_switch(FILEFLAG)
+        training_data = self.read_csv_train(dataset[0])
+        testing_data = self.read_csv_test(dataset[1])
+        self.train(training_data)
+        return dataset[2] + " " + self.classify_check(testing_data)

@@ -1,4 +1,5 @@
 from naivebayes import Learner
+# from knn import Learner
 FILEFLAG = 1
 
 def file_switch(flag):
@@ -11,11 +12,6 @@ def file_switch(flag):
 
 
 if __name__ == '__main__':
-    nb = Learner()
-    set = file_switch(FILEFLAG)
-    training_data = nb.read_csv_train(set[0])
-    testing_data = nb.read_csv_test(set[1])
-    nb.train(training_data)
-    str = nb.classify_check(testing_data)
-    print('%s %s' % (set[2], str))
+    machine = Learner()
+    print(machine.solve())
 
